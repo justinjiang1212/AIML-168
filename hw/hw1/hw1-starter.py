@@ -27,18 +27,28 @@ import pandas as pd
 if __name__ == '__main__':
 
   # Load the four data points of this problem
-  X = np.array([0, 2, 3, 4])
+  x = np.array([0, 2, 3, 4])
   y = np.array([1, 3, 6, 8])
 
   # Plot four data points on the plot
   plt.style.use('ggplot')
-  plt.plot(X, y, 'ro')
+  plt.plot(x, y, 'ro')
 
   # TODO: Replace the m_opt and b_opt values with the values you calculuated,
   # note that y=mx+b
   '''*** START YOUR CODE HERE ***'''
-  m_opt = 0
-  b_opt = 0
+  x_squared = np.square(x)
+  x_squared_sum = np.sum(x_squared)
+
+  x_sum = np.sum(x)
+  y_sum = np.sum(y)
+
+  xy = np.multiply(x,y)
+  xy_sum = np.sum(xy)
+
+  m_opt = ((len(x) * xy_sum) - (x_sum * y_sum) ) / ((len(x) * x_squared_sum) - (x_sum*x_sum))
+  b_opt = ((x_squared_sum * y_sum) - (x_sum * xy_sum) ) / ((len(x) * x_squared_sum) - (x_sum*x_sum))
+
   '''*** END YOUR CODE HERE ***'''
 
   # TODO: Generate 100 points along the line of optimal linear fit
@@ -49,15 +59,19 @@ if __name__ == '__main__':
   #   3) Use a.reshape(-1,1), where a is a np.array, to reshape the array to
   #      appropraite shape for generating plot
 
-  X_space = []
-  y_space = []
+  
 
   '''*** START YOUR CODE HERE ***'''
+  x_space = np.linspace(0,10, num = 100)
+  y_space = (x_space*m_opt) + b_opt
+
+  x_space = x_space.reshape(-1,1)
+  y_space = y_space.reshape(-1,1)
 
   '''*** END YOUR CODE HERE ***'''
 
   # Plot the optimal learn fit you obtained and save it to your current folder
-  plt.plot(X_space, y_space)
+  plt.plot(x_space, y_space)
   plt.savefig('original-fit.png', format='png')
   plt.close()
 
@@ -73,6 +87,8 @@ if __name__ == '__main__':
 
   '''*** START YOUR CODE HERE ***'''
 
+  noise = np.random.normal(mu, sigma, sampleSize)
+
   '''*** END YOUR CODE HERE ***'''
 
   # TODO: Generate y-coordinate of the 100 points with noise
@@ -80,9 +96,10 @@ if __name__ == '__main__':
   #  1) Use X_space created in the previous part above as the x-coordinates
   #  2) In this case, y = mx + b + noise
 
-  y_space_rand = np.zeros(len(X_space))
+  y_space_rand = np.zeros(len(x_space))
 
   '''*** START YOUR CODE HERE ***'''
+  y_space_rand = y_space + noise.reshape(-1,1)
 
   '''*** END YOUR CODE HERE ***'''
 
@@ -95,10 +112,20 @@ if __name__ == '__main__':
   #   3) Use np.linalg.solve to solve W_opt following the normal equation:
   #   X.T * X * W_opt = X.T * y
 
-  X_space_stacked = X_space  # need to be replaced following hint 1 and 2
+  X_space_stacked = x_space  # need to be replaced following hint 1 and 2
   W_opt = None
 
   '''*** START YOUR CODE HERE ***'''
+  ones = np.ones_like(x_space)
+  
+  X_space_stacked = np.hstack((x_space,ones))
+
+  X_space_stacked_T = X_space_stacked.transpose()
+
+
+  W_opt =  np.linalg.inv(X_space_stacked_T.dot(X_space_stacked)).dot(X_space_stacked_T.dot(y_space_rand))
+
+
 
   '''*** END YOUR CODE HERE ***'''
 
@@ -115,17 +142,22 @@ if __name__ == '__main__':
   y_pred_rand = []
 
   '''*** START YOUR CODE HERE ***'''
+  y_pred_rand = (x_space*m_rand_opt) + b_rand_opt
+
+  y_pred_rand = y_pred_rand.reshape(-1,1)
+
+
 
   '''*** END YOUR CODE HERE ***'''
 
   ## Generate plot
   # Plot original data points and line
-  plt.plot(X, y, 'ro')
-  orig_plot, = plt.plot(X_space, y_space, 'r')
+  plt.plot(x, y, 'ro')
+  orig_plot, = plt.plot(x_space, y_space, 'r')
 
   # Plot the generated 100 points with white gaussian noise and the new line
-  plt.plot(X_space, y_space_rand, 'bo')
-  rand_plot, = plt.plot(X_space, y_pred_rand, 'b')
+  plt.plot(x_space, y_space_rand, 'bo')
+  rand_plot, = plt.plot(x_space, y_pred_rand, 'b')
 
   # Set up legend and save the plot to the current folder
   plt.legend((orig_plot, rand_plot),
