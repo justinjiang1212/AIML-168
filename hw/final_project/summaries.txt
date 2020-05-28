@@ -1,5 +1,11 @@
 #put ideas and papers here:
 
+Automated algorithmic trading: machine learning and agent-based modelling in complex adaptive financial markets
+https://eprints.soton.ac.uk/397453/
 
+This paper uses regression trees and random forests to forecast markets.
 
+Online adaptive machine learning based algorithm for implied volatility surface modeling
+https://www.sciencedirect.com/science/article/abs/pii/S0950705118304350
 
+This paper is pretty interesting. I think we can try this one. I put a pdf of the paper in hw/final_project. 
