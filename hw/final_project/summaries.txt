@@ -2,6 +2,7 @@
 
 Automated algorithmic trading: machine learning and agent-based modelling in complex adaptive financial markets
 https://eprints.soton.ac.uk/397453/
+(Holy fuck this is 100 pages...)
 
 This paper uses regression trees and random forests to forecast markets.
 
@@ -9,3 +10,13 @@ Online adaptive machine learning based algorithm for implied volatility surface 
 https://www.sciencedirect.com/science/article/abs/pii/S0950705118304350
 
 This paper is pretty interesting. I think we can try this one. I put a pdf of the paper in hw/final_project. 
+
+--------Updated by Matthew--------
+
+Three types of projects we can choose:
+(1) Application of existing algorithm to a new problem and potentially new data.
+(2) Algorithmic work. Extend an existing algorithm or conceive a new one to solve some problem. This inherently includes the first option because you will need to test this new algorithm on data.
+(3) Theoretical work. Create a new convergence bound on a learning algorithm. Show that at some limit one learning algorithm becomes another. Etc.
+
+I think the paper that you put in hw/final_project would be a possible option to expand.
+
