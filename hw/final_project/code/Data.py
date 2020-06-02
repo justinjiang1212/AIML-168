@@ -14,14 +14,20 @@ nyc_time = datetime.now() + time_offset
 
 intraday_prices = []
 time = []
+#counter = 0
 
-while (nyc_time.hour < 16) and (nyc_time.minute < 30):      #market close @4:30 EDT
+#while counter < 5:
+while (nyc_time.hour > 9) and (nyc_time.minute > 30):
   intraday_prices.append(a.get_price())
   
   time.append(str(nyc_time.hour) + str(":") + str(nyc_time.minute))
 
-  Time.sleep(600)
+  Time.sleep(60)
   nyc_time = datetime.now() + time_offset
+
+  if (nyc_time.hour > 14) and (nyc_time.minute > 30) and (nyc_time.second > 0):
+    break
+  #counter +=1
 
 
 
