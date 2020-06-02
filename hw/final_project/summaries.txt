@@ -29,3 +29,8 @@ Company sentiment (same as you have written):
  
 These two will be the input parametric functions for the ML model. I designed them to be functions because the market is dynamic, and these parameters are always changing as time goes. 
 Also one more important thing is that we need to have some kind of factor for the functions so that the closer to the current time, the more impact it makes on the prediction, but I haven't figure out how to design it yet...
+
+
+Updated by Justin, 6/1 5:30 pm PST
+
+What if instead of making the closer time have a larger factor, what if we use another function, W, to denote how successful how past outputs of the S and B were at predicting the market? Like if we get a value of 0.5 for S and 0.7 for B, W will be the probability that the current values of S and B will accurately predict market movement. 
