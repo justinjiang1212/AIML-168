@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-a = Stock("AAPL", token="sk_434806dae94a4ee69daa8375f33da6f5")
+a = Stock("AAPL", token="sk_434806dae94a4ee69daa8375f33da6f5") #token is the secret API key for our account
 
 time_offset = timedelta(hours = 3)
 nyc_time = datetime.now() + time_offset
@@ -15,7 +15,7 @@ nyc_time = datetime.now() + time_offset
 intraday_prices = []
 time = []
 
-while (nyc_time.hour < 16) and (nyc_time.minute < 30):
+while (nyc_time.hour < 16) and (nyc_time.minute < 30):      #market close @4:30 EDT
   intraday_prices.append(a.get_price())
   
   time.append(str(nyc_time.hour) + str(":") + str(nyc_time.minute))
