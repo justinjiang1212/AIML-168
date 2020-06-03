@@ -10,7 +10,7 @@ import pandas as pd
 import os
 
 IEX_TOKEN='sk_434806dae94a4ee69daa8375f33da6f5'
-time_offset = timedelta(hours = 3)
+TIMEOFFSET = timedelta(hours = 3)
 
 '''class EquityType(Enum):
   STOCK = 1
@@ -34,7 +34,7 @@ class Equity:
 
   def updateLiveData(self):
     length = len(self.dayData)
-    self.dayData.loc[length + 1] = [datetime.now() + time_offset] + [self.iexVar.get_price()]
+    self.dayData.loc[length + 1] = [datetime.now() + TIMEOFFSET] + [self.iexVar.get_price()]
   
   def getHistoricalData(self, StartDate, EndDate):
     '''StartDate and EndDate are date objects'''
