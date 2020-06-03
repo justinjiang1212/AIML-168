@@ -18,17 +18,18 @@ intraday_prices = []
 time = []
 counter = 0
 
-while counter < 500:
+while counter < 180:
 #while (nyc_time.hour > 9) and (nyc_time.minute > 30):
   #intraday_prices.append(a.get_price())
 
-  
+  print(counter)
   df = get_last(symbols="AAPL", output_format='pandas', token = IEX_TOKEN)
   intraday_prices.append(df['price'])
 
   time.append(str(nyc_time.minute) + str(":") + str(nyc_time.second))
+  #time.append(nyc_time)
 
-  Time.sleep(10)
+  Time.sleep(1)
   nyc_time = datetime.now() + time_offset
 
   if (nyc_time.hour > 14) and (nyc_time.minute > 30) and (nyc_time.second > 0):
@@ -42,6 +43,9 @@ ax.plot(time, intraday_prices, color="green")
 
 ax.set(xlabel='Time', ylabel='Price',
        title='Apple Intraday Prices')
+
+#formatter = matplotlib.dates.DateFormatter('%H:%M:%S')
+#ax.xaxis.set_major_formatter(formatter)
 ax.grid()
 
 plt.show()
