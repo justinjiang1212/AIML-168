@@ -16,7 +16,7 @@ def obtain_plot_aapl_prices_dataframe(start_date, end_date):
   aapl["log_returns"] = np.log(aapl["returns"]) 
   aapl["log_returns"].plot(linewidth=0.5) 
   plt.ylabel("aapl daily percentage returns") 
-  plt.show() 
+#  plt.show() 
   return aapl
 
 def configure_sample_stoch_vol_model(log_returns, samples):

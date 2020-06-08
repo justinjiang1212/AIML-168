@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 a = Stock("AAPL", token="sk_434806dae94a4ee69daa8375f33da6f5") #token is the secret API key for our account
 IEX_TOKEN='sk_434806dae94a4ee69daa8375f33da6f5'
 
-time_offset = timedelta(hours = 3)
+'''time_offset = timedelta(hours = 3)
 nyc_time = datetime.now() + time_offset
 
 intraday_prices = []
@@ -48,5 +48,7 @@ ax.set(xlabel='Time', ylabel='Price',
 #ax.xaxis.set_major_formatter(formatter)
 ax.grid()
 
-plt.show()
+plt.show()'''
+
+
 
