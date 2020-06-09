@@ -49,11 +49,11 @@ class Equity:
 
 aapl = Equity(name='Apple', ticker = 'AAPL') 
 
-#start_date = date(2014, 1, 1)
-#end_date = date(2020, 6, 5)
+start_date = date(2020, 5, 14)
+end_date = date(2020, 6, 9)
 
-#aapl.getHistoricalData(start_date,end_date)
-#print("done collecting data, starting analysis")
+aapl.getHistoricalData(start_date,end_date)
+print("done collecting data, starting analysis")
 
 
 from gluonts.dataset import common
@@ -72,14 +72,19 @@ prices_csv = "aapl_20190401-20200605_minute.csv"
 
 
 df = pd.read_csv(prices_csv, index_col =0)
+#df = df.rename(columns={"marketClose":"Close"})
 
 df_cols = ['DateTime', 'Open', 'High', 'Low', 'Close', 'Volume']
 
 df0 = pd.read_csv('AAPL_2000_2009.txt', index_col =0, names = df_cols)
 df1 = pd.read_csv('AAPL_2010_2019.txt', index_col =0, names = df_cols)
 df2 = pd.read_csv('AAPL_2020_2020.txt', index_col =0, names = df_cols)
+updated_data = aapl.historicalData
+updated_data = updated_data.filter(['marketClose'])
+updated_data = updated_data.rename(columns={"marketClose":"Close"})
 
-frames = [df0, df1, df2]
+
+frames = [df0, df1, df2, updated_data]
 new_data = pd.concat(frames)
 
 
@@ -101,7 +106,7 @@ test_ds = ListDataset([{
 
 data = common.ListDataset([{
     "start": df.index[0],
-    "target": df.marketClose[:"2020-06-03 15:59:00"]
+    "target": df.marketClose[:"2020-06-08 15:59:00"]
 }],
                           freq="1min")
 
