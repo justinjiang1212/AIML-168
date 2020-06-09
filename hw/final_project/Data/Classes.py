@@ -73,11 +73,20 @@ prices_csv = "aapl_20190401-20200605_minute.csv"
 
 df = pd.read_csv(prices_csv, index_col =0)
 
+df_cols = ['DateTime', 'Open', 'High', 'Low', 'Close', 'Volume']
+
+df0 = pd.read_csv('AAPL_2000_2009.txt', index_col =0, names = df_cols)
+df1 = pd.read_csv('AAPL_2010_2019.txt', index_col =0, names = df_cols)
+df2 = pd.read_csv('AAPL_2020_2020.txt', index_col =0, names = df_cols)
+
+frames = [df0, df1, df2]
+new_data = pd.concat(frames)
+
 
 #df.drop(columns=['label', 'high', 'low', 'volume', 'notional', 'numberOfTrades', "marketHigh", "marketLow", "marketAverage", "marketNotional", "marketNumberOfTrades", "open", "close", "marketOpen", "marketClose", "changeOverTime", "marketChangeOverTime"])
 #prices = df.filter(['date','average', 'marketClose'])
 
-
+'''
 train_ds = ListDataset([{
   "start": df.index[0], 
   "target": df.marketClose[:"2020-06-02 04:29:00"]
@@ -87,18 +96,26 @@ test_ds = ListDataset([{
   "start": df.index[-390], 
   "target": df.marketClose["2020-06-05 09:30:00": '2020-06-05 15:59:00' ]
   }], freq="1min")
-
+'''
 
 
 data = common.ListDataset([{
     "start": df.index[0],
-    "target": df.marketClose[:"2020-06-05 15:59:00"]
+    "target": df.marketClose[:"2020-06-03 15:59:00"]
 }],
                           freq="1min")
 
-trainer = Trainer(epochs=10, ctx="cpu", num_batches_per_epoch=100)
+
+
+lots_of_data = common.ListDataset([{
+    "start": new_data.index[0],
+    "target": new_data.Close[:-1]
+}],
+                          freq="1min")
+
+trainer = Trainer(epochs=10, ctx="cpu", num_batches_per_epoch=50)
 estimator = deepar.DeepAREstimator(
-    freq="1min", prediction_length=390, trainer=trainer)
+    freq="1min", prediction_length=390, trainer=trainer, num_layers = 2)
 #predictor = estimator.train(training_data=data)
 
 trial_estimator = SimpleFeedForwardEstimator(
@@ -113,7 +130,7 @@ trial_estimator = SimpleFeedForwardEstimator(
                     num_batches_per_epoch=100
                    )
 )
-predictor = estimator.train(data)
+predictor = estimator.train(lots_of_data)
 
 prediction = next(predictor.predict(data))
 print(prediction.mean)
@@ -122,7 +139,7 @@ print(prediction.mean)
 forecast_it, ts_it = make_evaluation_predictions(
     dataset=data,  # test dataset
     predictor=predictor,  # predictor
-    num_samples=100,  # number of sample paths we want for evaluation
+    num_samples=500,  # number of sample paths we want for evaluation
 )
 
 forecasts = list(forecast_it)
