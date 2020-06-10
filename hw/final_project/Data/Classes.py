@@ -118,7 +118,7 @@ lots_of_data = common.ListDataset([{
 }],
                           freq="1min")
 
-trainer = Trainer(epochs=10, ctx="cpu", num_batches_per_epoch=50)
+trainer = Trainer(epochs=5, ctx="cpu", num_batches_per_epoch=50)
 estimator = deepar.DeepAREstimator(
     freq="1min", prediction_length=390, trainer=trainer, num_layers = 2)
 #predictor = estimator.train(training_data=data)
@@ -137,12 +137,12 @@ trial_estimator = SimpleFeedForwardEstimator(
 )
 predictor = estimator.train(lots_of_data)
 
-prediction = next(predictor.predict(data))
+prediction = next(predictor.predict(lots_of_data))
 print(prediction.mean)
 #prediction.plot(output_file='graph.png')
 
 forecast_it, ts_it = make_evaluation_predictions(
-    dataset=data,  # test dataset
+    dataset=lots_of_data,  # test dataset
     predictor=predictor,  # predictor
     num_samples=500,  # number of sample paths we want for evaluation
 )
@@ -152,7 +152,7 @@ tss = list(ts_it)
 
 ts_entry = tss[0]
 #np.array(ts_entry[:5]).reshape(-1,)
-test_ds_entry = next(iter(test_ds))
+#test_ds_entry = next(iter(test_ds))
 forecast_entry = forecasts[0]
 
 print(f"Number of sample paths: {forecast_entry.num_samples}")
