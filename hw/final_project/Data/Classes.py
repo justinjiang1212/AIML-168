@@ -19,35 +19,35 @@ TIMEOFFSET = timedelta(hours = 3)
   BOND = 4'''
 
 def daterange(start_date, end_date):
-  for n in range(int ((end_date - start_date).days)):
-    yield start_date + timedelta(n)
+    for n in range(int ((end_date - start_date).days)):
+        yield start_date + timedelta(n)
 
 
 class Equity:
-  def __init__(self, name=None, ticker = None):
-    self.name = name                                                 #String, colloquial name of equity 
-    self.ticker = ticker                                             #String, ticker name of equity
-    self.dayData = pd.DataFrame(columns=['DateTime','Price'])        #Data Frame, contains trading data starting from 12:00 am EST of the current day
-    self.historicalData = pd.DataFrame()                                          #dictionary of data frames of Day, with the key being a date in format MM/DD/YYYY and the value being a data frame of that day's trading data
-    self.iexVar = Stock(ticker, token = IEX_TOKEN)
+    def __init__(self, name=None, ticker = None):
+        self.name = name                                                 #String, colloquial name of equity
+        self.ticker = ticker                                             #String, ticker name of equity
+        self.dayData = pd.DataFrame(columns=['DateTime','Price'])        #Data Frame, contains trading data starting from 12:00 am EST of the current day
+        self.historicalData = pd.DataFrame()                                          #dictionary of data frames of Day, with the key being a date in format MM/DD/YYYY and the value being a data frame of that day's trading data
+        self.iexVar = Stock(ticker, token = IEX_TOKEN)
 
 
-  def updateLiveData(self):
-    length = len(self.dayData)
-    self.dayData.loc[length + 1] = [datetime.now() + TIMEOFFSET] + [self.iexVar.get_price()]
-  
-  def getHistoricalData(self, StartDate, EndDate):
-    '''StartDate and EndDate are date objects'''
+    def updateLiveData(self):
+        length = len(self.dayData)
+        self.dayData.loc[length + 1] = [datetime.now() + TIMEOFFSET] + [self.iexVar.get_price()]
 
-    #for date in daterange(StartDate, EndDate):
-    #  self.historicalData[date] = get_historical_intraday(self.ticker, date, output_format='pandas', token = IEX_TOKEN)
+    def getHistoricalData(self, StartDate, EndDate):
+        '''StartDate and EndDate are date objects'''
 
-    for date in daterange(StartDate, EndDate):
-      day_data = get_historical_intraday(self.ticker, date, output_format = 'pandas', token = IEX_TOKEN)
-      self.historicalData = self.historicalData.append(day_data)
+        #for date in daterange(StartDate, EndDate):
+        #  self.historicalData[date] = get_historical_intraday(self.ticker, date, output_format='pandas', token = IEX_TOKEN)
+
+        for date in daterange(StartDate, EndDate):
+            day_data = get_historical_intraday(self.ticker, date, output_format = 'pandas', token = IEX_TOKEN)
+            self.historicalData = self.historicalData.append(day_data)
 
 
-aapl = Equity(name='Apple', ticker = 'AAPL') 
+aapl = Equity(name='Apple', ticker = 'AAPL')
 
 start_date = date(2020, 5, 14)
 end_date = date(2020, 6, 9)
@@ -97,7 +97,6 @@ train_ds = ListDataset([{
   "start": df.index[0], 
   "target": df.marketClose[:"2020-06-02 04:29:00"]
   }], freq="1min")
-
 test_ds = ListDataset([{
   "start": df.index[-390], 
   "target": df.marketClose["2020-06-05 09:30:00": '2020-06-05 15:59:00' ]
@@ -109,7 +108,7 @@ data = common.ListDataset([{
     "start": df.index[0],
     "target": df.marketClose[:"2020-06-08 15:59:00"]
 }],
-                          freq="1min")
+    freq="1min")
 
 
 
@@ -117,7 +116,7 @@ lots_of_data = common.ListDataset([{
     "start": new_data.index[0],
     "target": new_data.Close[:-1]
 }],
-                          freq="1min")
+    freq="1min")
 
 trainer = Trainer(epochs=10, ctx="cpu", num_batches_per_epoch=75)
 estimator = deepar.DeepAREstimator(
@@ -134,7 +133,7 @@ trial_estimator = SimpleFeedForwardEstimator(
                     learning_rate=1e-30,
                     hybridize = False,
                     num_batches_per_epoch=100
-                   )
+                    )
 )
 predictor = estimator.train(lots_of_data)
 
