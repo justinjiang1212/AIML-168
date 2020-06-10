@@ -48,3 +48,4 @@ start_date = date(2020, 5, 22)
 end_date = date(2020, 6, 2)
 
 aapl.getHistoricalData(start_date, end_date)
+print(aapl)
