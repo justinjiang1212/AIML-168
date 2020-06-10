@@ -85,8 +85,9 @@ updated_data = updated_data.rename(columns={"marketClose":"Close"})
 
 
 frames = [df0, df1, df2, updated_data]
-new_data = pd.concat(frames)
+new_Data = pd.concat(frames)
 
+new_data = new_Data.filter(['Close'])
 
 #df.drop(columns=['label', 'high', 'low', 'volume', 'notional', 'numberOfTrades', "marketHigh", "marketLow", "marketAverage", "marketNotional", "marketNumberOfTrades", "open", "close", "marketOpen", "marketClose", "changeOverTime", "marketChangeOverTime"])
 #prices = df.filter(['date','average', 'marketClose'])
@@ -118,7 +119,7 @@ lots_of_data = common.ListDataset([{
 }],
                           freq="1min")
 
-trainer = Trainer(epochs=5, ctx="cpu", num_batches_per_epoch=50)
+trainer = Trainer(epochs=10, ctx="cpu", num_batches_per_epoch=75)
 estimator = deepar.DeepAREstimator(
     freq="1min", prediction_length=390, trainer=trainer, num_layers = 2)
 #predictor = estimator.train(training_data=data)
