@@ -1,0 +1,49 @@
+\documentclass[12pt,letterpaper]{pset}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\input{macros.tex}
+
+% info for header block in upper right hand corner
+\name{}
+\class{AIML 168}
+\assignment{Homework 3}
+
+\renewcommand{\labelenumi}{{(\alph{enumi})}}
+
+\begin{document}
+
+Feel free to work with other students, but make sure you write up the homework
+and code on your own (no copying homework \textit{or} code; no pair programming).
+Feel free to ask students or instructors for help debugging code or whatever else,
+though.\\
+
+\begin{problem}[1]
+  Go through Chapter 4 of the textbook. Run the code in the chapter and
+  reproduce the figures below.
+\end{problem}
+
+\begin{solution}
+Per Prof Gu's instructions in her email, I am summarizing a paper with machine learning methods. \\
+I found this paper about predicting high-variance events in time series. It is not a financial paper, but I believe that the methods and algorithms discuessed are highly applicable to algorithm trading. When we model an equity using a time series, we often will smooth out the data by removing the outliers, which means that we will have trouble predicting events that will cause a large deviation in variance. Therefore, this paper outlines a machine learning method called Long Short Term Memory (LSTM) along with a novel architecture to predict events that would normally fall outside the prediction range of normal time-series analysis. Here is a link to the paper: \href{http://roseyu.com/time-series-workshop/submissions/TSW2017_paper_3.pdf} {paper}\\
+ The authors work at Uber, which uses time series forecasting to predict rideshare demand at any given time. However, their current forecasting methods are not great at accounting for localized random high variance events that will cause a dramatic increase in the demand for rides, such as protests, Black Friday, and events like those. Therefore, the authors proposed a novel approach to accurately forecast such events, using neural networks embeded in a novel implementation of LSTM. 
+\end{solution}
+
+\newpage
+
+\begin{problem}[2]
+  Run the code from the paper you found in the previous homework. Put the
+  results below and explain what the code does.
+\end{problem}
+
+\begin{solution}
+    The code from the PYMC3 tutorial had a lot of errors, and a lot of code refused to run like they said it would. However, I now have a better understanding of how PYMC works, as well as a better understanding of some of its functionality that was not covered in the textbook. I've attached some code that was part of the tutorial as trial.py
+\end{solution}
+
+\newpage
+
+\end{document}

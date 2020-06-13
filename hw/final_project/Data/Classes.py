@@ -50,7 +50,7 @@ class Equity:
 aapl = Equity(name='Apple', ticker = 'AAPL')
 
 start_date = date(2020, 5, 14)
-end_date = date(2020, 6, 9)
+end_date = date(2020, 6, 12)
 
 aapl.getHistoricalData(start_date,end_date)
 print("done collecting data, starting analysis")

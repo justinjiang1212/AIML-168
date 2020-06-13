@@ -1,0 +1,42 @@
+\documentclass[12pt,letterpaper]{pset}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{parskip}
+
+\input{macros.tex}
+
+% info for header block in upper right hand corner
+\name{Justin Jiang}
+\class{AIML 168}
+\assignment{Homework 5}
+
+\renewcommand{\labelenumi}{{(\alph{enumi})}}
+
+\begin{document}
+
+Feel free to work with other students, but make sure you write up the homework
+and code on your own (no copying homework \textit{or} code; no pair programming).
+Feel free to ask students or instructors for help debugging code or whatever else,
+though.\\
+
+\begin{problem}[1]
+  Find some financial dataset and a paper describing a time series algorithm
+  then apply the algorithm to the financial data. Explain your methods and
+  paste your output below.
+\end{problem}
+
+\begin{solution}
+    I found a \href{https://arxiv.org/abs/1703.07015} {paper} that uses deep neural networks to model temporal patterns in time series. The paper uses a python package called Gluon to run a deep neural network on provided time series data.
+    
+    I used Apple minute-by-minute data from 2019-04-01 to 2020-06-05, roughly 100,000 data points, to create a forecast window of Apple stock price for the next trading day. I used a recurrent neural network with 20 epochs and 100 batches per epoch to generate prediction values for the next 390 minutes of trading, as there are 390 minutes in a normal trading day. I've included a png of the graph of the prediction. As you can see, the prediction for market open is incorrect, but for the first few minutes, the green prediction line tracks the obeserved values pretty well. However, error starts to accumulate and the two lines diverege.
+    
+    I hypothesize that my model is flawed in predicting market opens, as the price at market open is often determined by events that happen overnight. Such events are not inputted into the model, so from this lack of data, the RNN will struggle predicting the correct price at market open. But, even so, the line of the prediction seems to be tracking the line of the observed prices decently well for about 1 hour, until it stops tracking. I hypothesize that there are outside market factors that influence the stock price, such as general market sentiment and news reports. Because our model does not account for this, once there is an external force influencing the stock price, the model stops being accurate. Thus, I propose for my final project to include some kind of market sentiment tracker that will help the RNN account for market dynamics. 
+    
+    \end{solution}
+
+\newpage
+
+\end{document}

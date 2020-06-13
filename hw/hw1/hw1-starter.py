@@ -37,6 +37,8 @@ if __name__ == '__main__':
   # TODO: Replace the m_opt and b_opt values with the values you calculuated,
   # note that y=mx+b
   '''*** START YOUR CODE HERE ***'''
+
+  #calculate all the required sums
   x_squared = np.square(x)
   x_squared_sum = np.sum(x_squared)
 
@@ -46,6 +48,7 @@ if __name__ == '__main__':
   xy = np.multiply(x,y)
   xy_sum = np.sum(xy)
 
+  #calculate m_opt and b_opt using the formulas from prof gu's notes
   m_opt = ((len(x) * xy_sum) - (x_sum * y_sum) ) / ((len(x) * x_squared_sum) - (x_sum*x_sum))
   b_opt = ((x_squared_sum * y_sum) - (x_sum * xy_sum) ) / ((len(x) * x_squared_sum) - (x_sum*x_sum))
 
@@ -62,10 +65,10 @@ if __name__ == '__main__':
   
 
   '''*** START YOUR CODE HERE ***'''
-  x_space = np.linspace(0,10, num = 100)
-  y_space = (x_space*m_opt) + b_opt
+  x_space = np.linspace(0,5, num = 100)    #generate 100 points from x=0 to x=5
+  y_space = (x_space*m_opt) + b_opt       #multiply each point in x_space with m_opt, then add b-opt
 
-  x_space = x_space.reshape(-1,1)
+  x_space = x_space.reshape(-1,1)         #reshape each space so that graphing is easier
   y_space = y_space.reshape(-1,1)
 
   '''*** END YOUR CODE HERE ***'''
@@ -87,7 +90,7 @@ if __name__ == '__main__':
 
   '''*** START YOUR CODE HERE ***'''
 
-  noise = np.random.normal(mu, sigma, sampleSize)
+  noise = np.random.normal(mu, sigma, sampleSize)    #generate 100 points of noise
 
   '''*** END YOUR CODE HERE ***'''
 
@@ -99,7 +102,7 @@ if __name__ == '__main__':
   y_space_rand = np.zeros(len(x_space))
 
   '''*** START YOUR CODE HERE ***'''
-  y_space_rand = y_space + noise.reshape(-1,1)
+  y_space_rand = y_space + noise.reshape(-1,1)            #add noise to y_space to create random y space
 
   '''*** END YOUR CODE HERE ***'''
 
@@ -116,13 +119,13 @@ if __name__ == '__main__':
   W_opt = None
 
   '''*** START YOUR CODE HERE ***'''
-  ones = np.ones_like(x_space)
+  ones = np.ones_like(x_space)                
   
   X_space_stacked = np.hstack((x_space,ones))
 
   X_space_stacked_T = X_space_stacked.transpose()
 
-
+  #use forumula from prof gu's notes to find W_opt
   W_opt =  np.linalg.inv(X_space_stacked_T.dot(X_space_stacked)).dot(X_space_stacked_T.dot(y_space_rand))
 
 
@@ -142,6 +145,7 @@ if __name__ == '__main__':
   y_pred_rand = []
 
   '''*** START YOUR CODE HERE ***'''
+  #calculate the new y posistions using y=mx + b
   y_pred_rand = (x_space*m_rand_opt) + b_rand_opt
 
   y_pred_rand = y_pred_rand.reshape(-1,1)
